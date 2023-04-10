@@ -1,5 +1,18 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
+import { invoke } from '@tauri-apps/api/tauri'
+
+// 노트: 개발 중 Next.js로 실행할 때 2개의 실행 컨텍스트가 있음:
+// - 현재 컨텍스트가 nodejs 내부에 있기 때문에 Tauri에 연결할 수 없는 서버(nodejs).
+// - Tauri Rust 백엔드와 상호 작용할 수 있는 클라이언트(webview).
+// 현재 클라이언트 컨텍스트에서 실행 중인지 확인하기 위해 윈도우 개체의 유형을 확인할 수 있습니다;
+const isClient = typeof window !== 'undefined'
+
+// 이제, 명령을 호출할 수 있습니다!
+// 앱 배경을 우클릭하고 개발자 도구를 엽니다.
+// "Hello, World!"가 콘솔에 출력되는 걸 볼 수 있습니다!
+isClient &&
+invoke('greet', { name: 'World' }).then(console.log).catch(console.error)
 
 const inter = Inter({ subsets: ['latin'] })
 
