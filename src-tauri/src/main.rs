@@ -3,6 +3,8 @@
   windows_subsystem = "windows"
 )]
 
+mod dto;
+
 fn main() {
   tauri::Builder::default()
       .invoke_handler(tauri::generate_handler![greet])
